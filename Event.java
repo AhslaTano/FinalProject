@@ -1,4 +1,5 @@
 public class Event {
+    //TODO: events save file
     private String eventName;
     private String location;
     private Seat[][] seats;
@@ -35,7 +36,7 @@ public class Event {
         String availableSeats = "";
         for(int c = 0; c < seats.length; c++){
             for(int r = 0; r < seats[0].length; r++){
-                if(seats[c][r].available()){
+                if(seats[c][r].getAvailability()){
                     availableSeats = availableSeats + "\t" + seats[c][r];
                 }
                 availableSeats = availableSeats + "\n";

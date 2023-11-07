@@ -16,7 +16,7 @@ public class Seat {
     public int getPrice(){
         return price;
     }
-    public boolean available(){
+    public boolean getAvailability(){
         return available;
     }
     public String getLocation(){

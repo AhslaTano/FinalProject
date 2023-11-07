@@ -1,16 +1,21 @@
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
+
 public class Client {
     private Socket socket = null;
     private DataInputStream input = null;
     private DataOutputStream out = null;
+    private Scanner userInput;
 
     public Client(String address, int port){
         try{
+            //TODO: remove main loop from constructor
             socket = new Socket(address, port);
             System.out.println("Connected");
-            input = new DataInputStream(System.in);
+            input = new DataInputStream(socket.getInputStream());//updated from system.in to communicate with server
             out = new DataOutputStream(socket.getOutputStream());
+            userInput = new Scanner(System.in);
         }
         catch(UnknownHostException u){
             System.out.println(u);
@@ -20,15 +25,23 @@ public class Client {
             System.out.println(i);
             return;
         }
-        String line = "";
-        while(!line.equals("quit")){
+        
+        String clientLine = "";
+        String serverLine = "";
+        while(!clientLine.equals("quit")){
             try{
-                line = input.readLine();
-                out.writeUTF(line);
+                //then print output
+                serverLine = input.readUTF();
+                System.out.println("Server: " + serverLine);
+                //first send input
+                clientLine = userInput.nextLine();
+                out.writeUTF(clientLine);
+                
             }
             catch(IOException i){
                 System.out.println(i);
             }
+            
         }
         try{
             input.close();
@@ -40,7 +53,6 @@ public class Client {
         }
     }
     public static void main(String[] args){
-        Client client = new Client("127.0.1.0", 1000);
-        
+        Client client = new Client("127.0.1.0", 10000);   
     }
 }
