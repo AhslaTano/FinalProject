@@ -1,24 +1,30 @@
 public class Seat {
     private boolean available;
-    private String location;
     private int price;
     private int column;
-    private int row;
+    private int row;//location given by row/col
     private Ticket ticket;
+    private User owner;
 
     public Seat(){
         available = false;
-        location = "";
         price = 0;
     }
 
-    public Seat(String location, int price, int column, int row){
-        this.location = location;
+    public Seat(int price, int column, int row){
         this.price = price;
         this.column = column;
         this.row = row;
         this.ticket = new Ticket(null, this);
         this.available = ticket.getAvailability();
+    }
+    public Seat(int price, int column, int row, User owner){
+        this.price = price;
+        this.column = column;
+        this.row = row;
+        this.owner = owner;
+        ticket = new Ticket(owner, this);
+        available = ticket.getAvailability();
     }
 
     public int getPrice(){
@@ -27,7 +33,15 @@ public class Seat {
     public boolean getAvailability(){
         return available;
     }
-    public String getLocation(){
+    public Ticket getTicket(){
+        return ticket;
+    }
+    public void setOwner(User owner){
+        this.owner = owner;
+    }
+
+    public int[] getLocation(){
+        int[] location = {row, column};
         return location;
     }
     
@@ -40,8 +54,12 @@ public class Seat {
         return rowNum + String.valueOf(column + 1);
     }
 
+    public void setTicketOwner(User owner){
+        ticket.setOwner(owner);
+    }
+
     @Override
     public String toString(){
-        return "Seat " + getSeatNumber();
+        return row + ":" + column + ":" + price + ":" + (owner == null? "" : owner.getUsername());
     }
 }

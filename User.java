@@ -6,7 +6,6 @@ public class User {
     private List<Ticket> purchased;
     private String name;
     private String emailAddress;
-    private UserList userList;
 
     public User(){
         username = "";
@@ -44,31 +43,25 @@ public class User {
     public int getPoints(){
         return points;
     }
+    public void spendPoints(int debit){
+        points -= debit;
+    }
 
     public void viewPurchasedTickets(){
         for(Ticket ticket : purchased){
             System.out.println(ticket.toString());
         }
     }
-
-    public void spendPoints(Seat ticket){
-        points -= ticket.getPrice();
+    public void addPurchasedTicket(Ticket ticket){
+        purchased.add(ticket);
     }
-    // public boolean purchaseTicket(Seat seat){
-    //     boolean result = false;
-    //     if (seat.getAvailability()) {
-    //         if (owner.) {
-                
-    //         }
-    //         setOwner(owner);
-    //     }
-    // }
 
     public String viewProfile(){
         return username + ": \n" + name + "\n" + emailAddress + "\nPoints available: " + points;
     }
 
-    public String userString(){
+    @Override
+    public String toString(){
         return username + "," + password + "," + emailAddress + "," + name + "," + points + "," + purchased;
     }
 }

@@ -1,0 +1,3 @@
+Nick,passw0rd,millere99@yahoo.com,Nick Miller,30,[]
+Zach,str0ngpassw0rd,zach@julian.com,Zach Julian,30,[]
+midas,g0ld,midas@greece.com,King Midas,30,[]

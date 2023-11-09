@@ -16,6 +16,7 @@ public class Ticket {
     }
     public void setOwner(User owner){
         this.owner = owner;
+        seat.setOwner(owner);
     }
 
     public boolean getAvailability(){
@@ -28,5 +29,4 @@ public class Ticket {
         }
     }
 
-    
 }
