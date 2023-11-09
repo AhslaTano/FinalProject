@@ -1,22 +1,32 @@
 public class Ticket {
-    private Seat purchasedSeat;
-    private Event event;
-    private User owner; //Ticket keeps track of its owner
+    private User owner;
+    private Seat seat;
 
     public Ticket(){
-        event = null;
-        purchasedSeat = null;
         owner = null;
+        seat = null;
     }
-    public Ticket(Seat purchasedSeat, Event event, User owner){
-        this.purchasedSeat = purchasedSeat;
-        this.event = event;
+    public Ticket(User owner, Seat seat){
+        this.owner = owner;
+        this.seat = seat;
+    }
+
+    public User getOwner(){
+        return owner;
+    }
+    public void setOwner(User owner){
         this.owner = owner;
     }
-    public String getSeatLocation(){
-        return purchasedSeat.getLocation();
+
+    public boolean getAvailability(){
+        if (owner != null) {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
-    public Event getEvent(){
-        return event;
-    }
+
+    
 }

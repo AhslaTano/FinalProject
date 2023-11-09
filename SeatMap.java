@@ -8,7 +8,7 @@ public class SeatMap {
         seats = new Seat[10][10];
         for(int c = 0; c < seats.length; c++){
             for(int r = 0; r < seats[0].length; r++){
-                seats[c][r] = new Seat(true, "Row " + r + "Seat " + c, 10-r);
+                seats[c][r] = new Seat("Row " + r + "Seat " + c, 10-r, c, r);
             }
         }
     }
@@ -17,7 +17,7 @@ public class SeatMap {
         seats = new Seat[columns][rows];
         for(int c = 0; c < seats.length; c++){
             for(int r = 0; r < seats[c].length; r++){
-                seats[c][r] = new Seat(true, "Row " + r + "Seat " + c, 10-r);
+                seats[c][r] = new Seat( "Row " + r + "Seat " + c, 10-r, c, r);
             }
         }
     }
@@ -31,4 +31,16 @@ public class SeatMap {
     }
 
     //TODO: available seats getter
+    public String availableSeats(){
+        String availableSeats = "";
+        for(int c = 0; c < seats.length; c++){
+            for(int r = 0; r < seats[0].length; r++){
+                if(seats[c][r].getAvailability()){
+                    availableSeats = availableSeats + "\t" + seats[c][r];
+                }
+                availableSeats = availableSeats + "\n";
+            }
+        }
+        return availableSeats;
+    }
 }

@@ -5,7 +5,8 @@ public class User {
     private int points;
     private List<Ticket> purchased;
     private String name;
-    private String address;
+    private String emailAddress;
+    private UserList userList;
 
     public User(){
         username = "";
@@ -13,16 +14,17 @@ public class User {
         points = 0;
         purchased = null;
         name = "";
-        address = "";
+        emailAddress = "";
     }
 
-    public User(String username, String password, String name, String address){
+    public User(String username, String password, String name, String emailAddress, UserList userList){
         this.username = username;
         this.password =  password;
         points = 30;
         purchased = new ArrayList<Ticket>();
         this.name = name;
-        this.address = address;
+        this.emailAddress = emailAddress;
+        userList.addUser(this);
     }
 
     public String getUsername(){
@@ -52,8 +54,21 @@ public class User {
     public void spendPoints(Seat ticket){
         points -= ticket.getPrice();
     }
+    // public boolean purchaseTicket(Seat seat){
+    //     boolean result = false;
+    //     if (seat.getAvailability()) {
+    //         if (owner.) {
+                
+    //         }
+    //         setOwner(owner);
+    //     }
+    // }
 
     public String viewProfile(){
-        return username + ": \n" + name + "\n" + address + "\nPoints available: " + points;
+        return username + ": \n" + name + "\n" + emailAddress + "\nPoints available: " + points;
+    }
+
+    public String userString(){
+        return username + "," + password + "," + emailAddress + "," + name + "," + points + "," + purchased;
     }
 }

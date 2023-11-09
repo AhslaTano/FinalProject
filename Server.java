@@ -32,6 +32,8 @@ public class Server {
             //TODO: implement main menu
             out.writeUTF("Welcome!");
             out.writeUTF(sendMenu(0));
+            Event event = new Event("Test", "Test", "11/20", 10, 20);
+            System.out.println(event.seats.availableSeats());
             //TODO: view events function
             //TODO: Buy a ticket function
             //TODO: seat selecting from string
@@ -66,6 +68,7 @@ public class Server {
         menus[0] = "Main menu:\n1.View Events\n2.Buy a Ticket\n3.View Purchased Tickets\n4.Quit";
         return menus[menuNumber];
     }
+    
 
     public static void main(String[] args){
         Server server = new Server(10000);    
