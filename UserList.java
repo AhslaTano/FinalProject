@@ -12,20 +12,47 @@ public class UserList {
     public UserList(){
         users = new ArrayList<User>();
     }
-    public void addUser(User user){
-        users.add(user);
+
+    /**
+     * Adds user if username not taken
+     * @param user The new user
+     * @return Bool indicating success 
+     */
+    public boolean addUser(User user){
+        boolean usernameAvailable = true;
+        boolean result = false;
+        for (User u : users) {
+            if (u.getUsername().toUpperCase().equals(user.getUsername().toUpperCase())) {
+                usernameAvailable = false;
+                break;
+            }
+        }
+        if (usernameAvailable) {
+            users.add(user);
+            result = true;
+        }
+        return result;
     }
-     //TODO: fix so it returns as soon as a match comes up
+    
+    /**
+     * Finds user based on username
+     * @param username String unique to each user
+     * @return User corresponding to username, null if no user
+     */
     public User getUser(String username){
         User userReturn = null;
         for (User user : users) {
             if(username.equals(user.getUsername())){
                 userReturn = user;
+                return userReturn;
             }
         }
         return userReturn;
     }
 
+    /**
+     * Writes users to a file
+     */
     public void saveUsersList(){
         try {
             File file = new File("users.txt");
@@ -49,6 +76,11 @@ public class UserList {
         return result;
     }
     
+    /**
+     * Loads users from save file
+     * Note: vulnerability is here
+     * @return UserList with saved users
+     */
     public static UserList loadUserList(){
         UserList users = new UserList();
         try {

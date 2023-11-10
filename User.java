@@ -47,10 +47,12 @@ public class User {
         points -= debit;
     }
 
-    public void viewPurchasedTickets(){
+    public String viewPurchasedTickets(){
+        String returnString = "";
         for(Ticket ticket : purchased){
-            System.out.println(ticket.toString());
+            returnString += ticket;
         }
+        return returnString;
     }
     public void addPurchasedTicket(Ticket ticket){
         purchased.add(ticket);

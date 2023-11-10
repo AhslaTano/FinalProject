@@ -20,13 +20,7 @@ public class Ticket {
     }
 
     public boolean getAvailability(){
-        if (owner != null) {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return(owner == null ? true : false);
     }
 
 }
