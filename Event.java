@@ -1,5 +1,4 @@
 public class Event {
-    //TODO: events save file
     private String eventName;
     private String location;
     public SeatMap seats;
@@ -47,7 +46,7 @@ public class Event {
      * Purchases ticket
      * @param seatNumber human-readable seat number
      * @param user The user to give the ticket to
-     * @return
+     * @return Boolean indicating success
      */
     public boolean purchaseTicket(String seatNumber, User user){
         boolean result = false;        

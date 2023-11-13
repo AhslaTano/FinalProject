@@ -6,6 +6,7 @@ public class User {
     private List<Ticket> purchased;
     private String name;
     private String emailAddress;
+    private boolean loggedIn;
 
     public User(){
         username = "";
@@ -23,7 +24,6 @@ public class User {
         purchased = new ArrayList<Ticket>();
         this.name = name;
         this.emailAddress = emailAddress;
-        userList.addUser(this);
     }
 
     public String getUsername(){
@@ -46,6 +46,8 @@ public class User {
     public void spendPoints(int debit){
         points -= debit;
     }
+    public void addPoints(int credit) { points += credit; }
+    public boolean isLoggedIn(){ return loggedIn; }
 
     public String viewPurchasedTickets(){
         String returnString = "";
@@ -65,5 +67,10 @@ public class User {
     @Override
     public String toString(){
         return username + "," + password + "," + emailAddress + "," + name + "," + points + "," + purchased;
+    }
+
+    public boolean login(String password){
+        loggedIn = password.equals(this.password);
+        return loggedIn;
     }
 }

@@ -49,9 +49,9 @@ public class SeatMap {
     @Override
     public String toString(){
         String result = "";
-        for (int c = 0; c < seats.length; c++) {
-            for (int r = 0; r < seats[c].length; r++) {
-                result += seats[c][r].toString() + "/";
+        for (Seat[] seatRow : seats) {
+            for (Seat seat : seatRow) {
+                result += seat.toString() + "/";
             }
         }
         return result;
@@ -76,8 +76,8 @@ public class SeatMap {
             seatStrings.add(scan.next());
         }
         String[] lastSeat = seatStrings.get(seatStrings.size()-1).split(":");
-        int rows = Integer.valueOf(lastSeat[0]);
-        int cols = Integer.valueOf(lastSeat[1]);
+        int rows = Integer.parseInt(lastSeat[0]);
+        int cols = Integer.parseInt(lastSeat[1]);
         SeatMap seats = new SeatMap(cols, rows);        
         for (String string : seatStrings) {
             Seat seat;
@@ -85,11 +85,11 @@ public class SeatMap {
             for (String str : seatString) {
                 System.out.println("Debug:" + str);
             }
-            int row = Integer.valueOf(seatString[0]);
-            int col = Integer.valueOf(seatString[1]);
-            int price = Integer.valueOf(seatString[2]);
+            int row = Integer.parseInt(seatString[0]);
+            int col = Integer.parseInt(seatString[1]);
+            int price = Integer.parseInt(seatString[2]);
             
-            if (!seatString[3].equals("")) {
+            if (!seatString[3].isEmpty()) {
                 seat = new Seat(price, col, row);
             }
             else
@@ -113,8 +113,8 @@ public class SeatMap {
      */
     public Seat getSeatFromHumanNumber(String seatNumber){
         seatNumber = seatNumber.toUpperCase(); //just in case
-        int row = Integer.valueOf(seatNumber.substring(0,1).toCharArray()[0]) - 65;
-        int col = Integer.valueOf(seatNumber.substring(1));
+        int row = (int) seatNumber.substring(0, 1).toCharArray()[0] - 65;
+        int col = Integer.parseInt(seatNumber.substring(1));
         return seats[row][col];
 
     }

@@ -96,9 +96,27 @@ public class UserList {
             fileScan.close();
             }  
         } catch (IOException e) {
-            System.out.println(e.getStackTrace());
+            System.out.println(e.getMessage());
         }
        
         return users;
     }
+
+    /**
+     * Log in
+     * @param username String, unique username
+     * @param password String, password to try
+     * @return Success of operation
+     */
+    public boolean login(String username, String password){
+        boolean result = false;
+        User user = getUser(username);
+        user.login(password);
+        if (user.isLoggedIn()){
+            result = true;
+        }
+        return result;
+    }
+
+
 }

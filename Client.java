@@ -10,7 +10,7 @@ public class Client {
 
     public Client(String address, int port){
         try{
-            //TODO: remove main loop from constructor
+            // TODO: remove main loop from constructor
             socket = new Socket(address, port);
             System.out.println("Connected");
             input = new DataInputStream(socket.getInputStream());//updated from system.in to communicate with server

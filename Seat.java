@@ -41,15 +41,14 @@ public class Seat {
     }
 
     public int[] getLocation(){
-        int[] location = {row, column};
-        return location;
+        return new int[]{row, column};
     }
     
     //Provides human-formatted seat number
     // letter corresponds to row, number to column
     public String getSeatNumber(){
         //Get row letter by ASCII
-        //TODO: add robusticity by accounting for row > 26
+        //TODO: add robustness by accounting for row > 26
         String rowNum = String.valueOf((char)('A' + row));
         return rowNum + String.valueOf(column + 1);
     }

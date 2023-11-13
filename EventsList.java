@@ -1,9 +1,5 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class EventsList {
     private ArrayList<Event> events;
@@ -15,7 +11,11 @@ public class EventsList {
     public void addEvent(Event event){
         events.add(event);
     }
+    public Event getEvent(int index) {return events.get(index);}
 
+    /**
+     * Writes events to a .txt file
+     */
     public void saveEventsList(){
         try {
             File file = new File("events.txt");
@@ -38,7 +38,12 @@ public class EventsList {
         }
         return result;
     }
-    
+
+    /**
+     * Creates eventsList from a file
+     * @param users A UserList, corresponds to users in event tickets
+     * @return Events list object
+     */
     public static EventsList loadEventList(UserList users){
         EventsList events = new EventsList();
         try {
@@ -53,9 +58,22 @@ public class EventsList {
             fileScan.close();
             }  
         } catch (IOException e) {
-            System.out.println(e.getStackTrace());
+            System.out.println(e.getMessage());
         }
        
         return events;
+    }
+
+    public String viewEvents(){
+        String result = "";
+        if (events.isEmpty()) {
+            result = "There are no events coming up.";
+        } else {
+            for (Event event :
+                    events) {
+                result += (events.indexOf(event) + 1)+ ". " +  event.eventDescription();
+            }
+        }
+        return result;
     }
 }

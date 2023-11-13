@@ -1,6 +1,6 @@
 The course project will be done in groups of 2. There are two main parts to the project.
 
-Part 1: Design and development of  the program
+Part 1: Design and development of the program
 
 Description: The purpose of the program is to create a ticket purchasing program that allows for users to log in, purchase tickets, keep records of tickets purchased, and keep information about the user. 
 
@@ -26,7 +26,7 @@ Deliverables:
     User guide with clear descriptions of how to run and navigate the program.
     Documentation of (intentional) vulnerabilities left out in the program.
 
-Part 1 Due Date: All deliverables above are due by  Friday, November 18 2022@ 11:59 PM.  Failure to submit on time will prevent your team from completing Part 2 of the assignment and will cause the team to fail the project.
+Part 1 Due Date: All deliverables above are due by  Friday, November 17 2022@ 11:59 PM.  Failure to submit on time will prevent your team from completing Part 2 of the assignment and will cause the team to fail the project.
 
 Part 2: Finding Vulnerabilities in Other Projects
 
