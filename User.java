@@ -75,6 +75,7 @@ public class User {
             return false;
         }
         spendPoints(seat.getPrice());
+        seat.setTicketOwner(this);
         purchased.add(seat.getTicket());
         return true;
     }
