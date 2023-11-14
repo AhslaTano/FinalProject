@@ -207,7 +207,8 @@ public class Server {
                         userYNChoice = in.readUTF();
                     }
                     if(userYNChoice.equalsIgnoreCase("Y")){
-                        // TODO: implement user.purchaseTicket
+                        user.purchaseTicket(seat);
+                        seat.getTicket().setOwner(user);
                     }
                 }
             }

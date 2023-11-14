@@ -56,9 +56,6 @@ public class User {
         }
         return returnString;
     }
-    public void addPurchasedTicket(Ticket ticket){
-        purchased.add(ticket);
-    }
 
     public String viewProfile(){
         return username + ": \n" + name + "\n" + emailAddress + "\nPoints available: " + points;
@@ -74,6 +71,11 @@ public class User {
         return loggedIn;
     }
     public boolean purchaseTicket(Seat seat){
-        //TODO: write method
+        if(points < seat.getPrice()){
+            return false;
+        }
+        spendPoints(seat.getPrice());
+        purchased.add(seat.getTicket());
+        return true;
     }
 }
