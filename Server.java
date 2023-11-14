@@ -216,7 +216,7 @@ public class Server {
     }
 
     public static void main(String[] args){
-        Server server = new Server(10000);
+        Server server = new Server(5000);
         server.Run();
     }
 }

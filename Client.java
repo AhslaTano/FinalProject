@@ -53,6 +53,6 @@ public class Client {
         }
     }
     public static void main(String[] args){
-        Client client = new Client("127.0.1.0", 10000);   
+        Client client = new Client("127.0.1.0", 5000);   
     }
 }
