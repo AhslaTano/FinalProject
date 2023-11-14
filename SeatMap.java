@@ -8,25 +8,23 @@ public class SeatMap {
     public Seat[][] seats;
 
     //Switched [col][row] indexing for [row][col] because 1. convention 2. made my brain hurt
-    public SeatMap(){
-        seats = new Seat[10][10];
-        for(int r = 0; r < seats.length; r++){
-            for(int c = 0; c < seats[r].length; c++){
-                seats[r][c] = new Seat(10-c, r, c);
-            }
-        }
-    }
-
     public SeatMap(int columns, int rows){
         seats = new Seat[columns][rows];
         for(int r = 0; r < seats.length; r++){
             for(int c = 0; c < seats[r].length; c++){
-                seats[r][c] = new Seat(10-c, r, c);
+                seats[r][c] = new Seat(rows-r, r, c);
             }
         }
     }
-    //TODO: implement pretty print (row letter, 1-indexed numbers, ascii)
+
+    /**
+     * Prints a formatted map of seats
+     */
     public void printMap(){
+        int length = seats[0].length * 6;
+        String blankSpace =  String.format("%1$" + (length/4) +"s", "");
+        String Stage = blankSpace + "[" + blankSpace + "STAGE" + blankSpace + "]";
+        System.out.println("\n" + Stage);
         for(int r = 0; r < seats.length; r++){
             for(int c = 0; c < seats[r].length; c++){
                 System.out.print("[ " + (seats[r][c].getAvailability()? seats[r][c].getSeatNumber() : "XX") + " ] ");
@@ -78,13 +76,13 @@ public class SeatMap {
         while (scan.hasNext()) {
             seatStrings.add(scan.next());
         }
-        String[] lastSeat = seatStrings.get(seatStrings.size()-1).split(":");
-        int rows = Integer.parseInt(lastSeat[0] + 1);
-        int cols = Integer.parseInt(lastSeat[1] + 1);
+        String[] lastSeat = seatStrings.get(seatStrings.size()-1).split("-");
+        int rows = Integer.parseInt(lastSeat[0]) + 1;
+        int cols = Integer.parseInt(lastSeat[1])+ 1;
         SeatMap seats = new SeatMap(rows, cols);
 
         for (String string : seatStrings) {
-            String[] seatInfo = string.split(":");
+            String[] seatInfo = string.split("-");
 
             int row = Integer.parseInt(seatInfo[0]);
             int col = Integer.parseInt(seatInfo[1]);

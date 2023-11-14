@@ -3,7 +3,6 @@ import java.util.*;
 
 public class EventsList {
     private ArrayList<Event> events;
-
     public EventsList(){
         events = new ArrayList<>();
     }
@@ -11,7 +10,7 @@ public class EventsList {
     public void addEvent(Event event){
         boolean eventExists = false;
         for (Event e : events) {
-            if (e.toString().equals(event.toString())) {
+            if (e.getEventID() == event.getEventID()) {
                 eventExists = true;
                 break;
             }
@@ -28,8 +27,8 @@ public class EventsList {
     public void saveEventsList(){
         try {
             File file = new File("events.txt");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
-        
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+
             for (Event event : events) {
                 writer.append(event.toString() + "\n");
             }
@@ -62,7 +61,7 @@ public class EventsList {
                 while (fileScan.hasNextLine()){
                     String eventLine = fileScan.nextLine();
                     String[] eventStrings = eventLine.split(",");
-                    events.addEvent(new Event(eventStrings[0], eventStrings[1], eventStrings[2], eventStrings[3], SeatMap.loadSeatMap(eventStrings[4], users)));
+                    events.addEvent(new Event(Integer.valueOf(eventStrings[0]), eventStrings[1], eventStrings[2], eventStrings[3], eventStrings[4], SeatMap.loadSeatMap(eventStrings[5], users)));
                 }
             fileScan.close();
             }  
@@ -78,11 +77,12 @@ public class EventsList {
         if (events.isEmpty()) {
             result = "There are no events coming up.";
         } else {
-            for (Event event :
-                    events) {
+            for (Event event : events) {
                 result += (events.indexOf(event) + 1)+ ". " +  event.eventDescription();
             }
         }
         return result;
     }
+
+
 }

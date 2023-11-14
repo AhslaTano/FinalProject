@@ -73,4 +73,7 @@ public class User {
         loggedIn = password.equals(this.password);
         return loggedIn;
     }
+    public boolean purchaseTicket(Seat seat){
+        //TODO: write method
+    }
 }

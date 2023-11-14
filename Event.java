@@ -5,6 +5,7 @@ public class Event {
     private String date;
     private String time;
     //tickets stored in seatmap in seats
+    private int eventID;
 
     public Event(){
         eventName = "";
@@ -19,8 +20,10 @@ public class Event {
         this.date = date;
         this.time = time;
         seats = new SeatMap(columns,rows);
+        generateEventID();
     }
-    public Event(String eventName, String location, String date, String time, SeatMap seats){
+    public Event(int eventID, String eventName, String location, String date, String time, SeatMap seats){
+        this.eventID = eventID;
         this.eventName = eventName;
         this.location = location;
         this.date = date;
@@ -36,10 +39,10 @@ public class Event {
     public String getDate(){
         return date;
     }
-    
+    public int getEventID() { return eventID; }
     @Override
     public String toString(){
-        return eventName + "," + location + "," + date + "," + time + "," + seats.toString();
+        return eventID + "," + eventName + "," + location + "," + date + "," + time + "," + seats.toString();
     }
 
     public String eventDescription(){
@@ -64,6 +67,10 @@ public class Event {
             }
         }
         return result;
+    }
+
+    private void generateEventID(){
+       eventID = this.toString().hashCode();
     }
 
 }

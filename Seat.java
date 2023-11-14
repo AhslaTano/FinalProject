@@ -59,6 +59,6 @@ public class Seat {
 
     @Override
     public String toString(){
-        return row + ":" + column + ":" + price + ":" + (owner == null? " " : owner.getUsername());
+        return row + "-" + column + "-" + price + "-" + (owner == null? " " : owner.getUsername());
     }
 }
