@@ -1,8 +1,11 @@
+/**
+ * Class for Seats. Manages seat and associated ticket.
+ */
 public class Seat {
     private boolean available;
     private int price;
     private int column;
-    private int row;//location given by row/col
+    private int row;
     private Ticket ticket;
     private User owner;
 
@@ -55,6 +58,7 @@ public class Seat {
 
     public void setTicketOwner(User owner){
         ticket.setOwner(owner);
+        this.setOwner(owner);
     }
 
     @Override

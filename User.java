@@ -74,6 +74,13 @@ public class User {
         return loggedIn;
     }
     public boolean purchaseTicket(Seat seat){
-        //TODO: write method
+        boolean success = false;
+        if (points >= seat.getPrice()){
+            spendPoints(seat.getPrice());
+            seat.setTicketOwner(this);
+            purchased.add(seat.getTicket());
+            success = true;
+        }
+        return success;
     }
 }

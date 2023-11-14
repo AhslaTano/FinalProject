@@ -8,6 +8,32 @@ public class Client {
     private DataOutputStream out = null;
     private Scanner userInput;
 
+    /*
+     try{
+            socket = serverSocket.accept();
+            System.out.println("Client found");
+
+            in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            out = new DataOutputStream(socket.getOutputStream());
+
+            startApplication();
+
+            while(!user.isLoggedIn()) {
+                loginMenu();
+            }
+            mainMenu();
+
+            handleClientInteraction();
+            socket.close();
+            in.close();
+        }
+            catch(IOException i){
+            System.out.println(i.getMessage());
+        }
+    }
+
+     */
+
     public Client(String address, int port){
         try{
             // TODO: remove main loop from constructor
@@ -25,7 +51,7 @@ public class Client {
             System.out.println(i);
             return;
         }
-        
+
         String clientLine = "";
         String serverLine = "";
         while(!clientLine.equals("quit")){
@@ -36,12 +62,12 @@ public class Client {
                 //first send input
                 clientLine = userInput.nextLine();
                 out.writeUTF(clientLine);
-                
+
             }
             catch(IOException i){
                 System.out.println(i);
             }
-            
+
         }
         try{
             input.close();
@@ -52,7 +78,9 @@ public class Client {
             System.out.println(i);
         }
     }
+
+
     public static void main(String[] args){
-        Client client = new Client("127.0.1.0", 10000);   
+        Client client = new Client("127.0.1.0", 10000);
     }
 }

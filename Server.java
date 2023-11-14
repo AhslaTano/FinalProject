@@ -1,7 +1,5 @@
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
-
 
 public class Server {
     private Socket socket;
@@ -44,9 +42,6 @@ public class Server {
                 loginMenu();
             }
             mainMenu();
-            //TODO: view events function
-            //TODO: seat selecting from string
-            //TODO:View purchased tickets function
 
             handleClientInteraction();
             socket.close();
@@ -77,7 +72,7 @@ public class Server {
         }
     }
 
-    public boolean userLogin(){
+    public void userLogin(){
         boolean success = false;
         while(!success){
             try{
@@ -90,7 +85,7 @@ public class Server {
                 System.err.println(e.getMessage());
             }
         }
-    return success;
+
     }
 
     /**
@@ -135,7 +130,6 @@ public class Server {
     }
 
     public void mainMenu(){
-        //"
         try {
             out.writeUTF("Main menu:\n1.View Events\n2.Buy a Ticket\n3.View Purchased Tickets\n4.Add Points\n5.Account Options\n6.Quit");
             int userInput = in.readInt();
@@ -148,7 +142,7 @@ public class Server {
                             break;
                     case 2:
                             out.writeUTF("Buy a Ticket:");
-                            //TODO: Ticket buying
+                            purchaseTicketMenu();
                             break;
                     case 3:
                             out.writeUTF("Your purchased tickets: ");
@@ -159,7 +153,6 @@ public class Server {
                             out.writeUTF("Enter points to add: ");
                             int pointsToAdd = in.readInt();
                             user.addPoints(pointsToAdd);
-                            //no limits right now. capitalism
                             break;
                     case 5:
                             out.writeUTF("Account Options");
@@ -196,7 +189,7 @@ public class Server {
                 out.writeUTF("Please enter its seat number: ");
                 String seatNumber = in.readUTF();
                 Seat seat = event.seats.getSeatFromHumanNumber(seatNumber);
-                if (seat != null) {
+                if (seat != null && seat.getAvailability()) {
                     out.writeUTF("Ticket for seat " + seat.getSeatNumber() + " costs " + seat.getPrice() + " points. ");
                     out.writeUTF("Purchase ticket? (Y/N): ");
                     String userYNChoice = "";
@@ -207,7 +200,11 @@ public class Server {
                         userYNChoice = in.readUTF();
                     }
                     if(userYNChoice.equalsIgnoreCase("Y")){
-                        // TODO: implement user.purchaseTicket
+                        if(user.purchaseTicket(seat)){
+                            out.writeUTF("Successfully purchased ticket for seat " + seat.getSeatNumber() + "!");
+                        }
+                    }else {
+                        out.writeUTF("Cancelling operation.");
                     }
                 }
             }
@@ -224,7 +221,38 @@ public class Server {
     public void loginMenu(){
         try{
             out.writeUTF("Login menu:\n1.Create an Account\n2.Log In\n3.Quit");
-            // TODO: login menu
+            int userInput = in.readInt();
+            while(userInput != 6)
+            {
+                switch (userInput){
+                    case 1:
+                        out.writeUTF("Create an Account: ");
+                        createAccount();
+                        break;
+                    case 2:
+                        out.writeUTF("Log in");
+                        loginMenu();
+                        break;
+                    case 3:
+                        out.writeUTF("Your purchased tickets: ");
+                        out.writeUTF(user.viewPurchasedTickets());
+                        break;
+                    case 4:
+                        out.writeUTF("Your current points balance: " + user.getPoints());
+                        out.writeUTF("Enter points to add: ");
+                        int pointsToAdd = in.readInt();
+                        user.addPoints(pointsToAdd);
+                        break;
+                    case 5:
+                        out.writeUTF("Account Options");
+                        accountMenu();
+                        break;
+                    default:
+                        out.writeUTF("Invalid input. Please try again.");
+                        break;
+                }
+                userInput = in.readInt();
+            }
         }catch (IOException e){
             System.err.println(e.getMessage());
         }
