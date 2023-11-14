@@ -20,6 +20,7 @@ public class Server {
             serverSocket = new ServerSocket(port);
             users = UserList.loadUserList();
             events = EventsList.loadEventList(users);
+            user = new User();
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
@@ -37,13 +38,11 @@ public class Server {
             out = new DataOutputStream(socket.getOutputStream());
 
             startApplication();
-
+            
             while(!user.isLoggedIn()) {
                 loginMenu();
             }
             mainMenu();
-
-            handleClientInteraction();
             socket.close();
             in.close();
         }
@@ -57,20 +56,7 @@ public class Server {
         events = EventsList.loadEventList(users);
     }
 
-    private void handleClientInteraction(){
-        String line = "";
-        while(!line.equals("quit")){
-            try{
-                line = in.readUTF();
-                System.out.println("Client: " + line);
-                String response = "Echo - " + line;
-                out.writeUTF(response);
-            }
-            catch(IOException i){
-                System.out.println(i.getMessage());
-            }
-        }
-    }
+
 
     public void userLogin(){
         boolean success = false;
