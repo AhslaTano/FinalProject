@@ -9,15 +9,16 @@ public class Program {
         // user = new User("midas", "g0ld", "King Midas", "midas@greece.com", users);
         // System.out.println(user.toString());
         System.out.println(users.toString());
-        EventsList events = new EventsList();
-        Event event = new Event("Test", "Testville", "10/10", 10, 20);
-        events.addEvent(event);
+        //EventsList events = new EventsList();
+        Event event = new Event("Test", "Testville", "10/10", "7:00", 20, 10);
+
         //System.out.println(event.toString());
-        //EventsList events = EventsList.loadEventList(users);
-        
+        EventsList events = EventsList.loadEventList(users);
+        events.addEvent(event);
         event.purchaseTicket("A5", users.getUser("midas"));
         events.saveEventsList();
 
         users.getUser("midas").viewPurchasedTickets();
+        event.seats.printMap();
     }
 }

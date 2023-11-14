@@ -3,6 +3,7 @@ public class Event {
     private String location;
     public SeatMap seats;
     private String date;
+    private String time;
     //tickets stored in seatmap in seats
 
     public Event(){
@@ -10,17 +11,20 @@ public class Event {
         location = "";
         seats = null;
         date = "";
+        time = "";
     }
-    public Event(String eventName, String location, String date, int rows, int columns){
+    public Event(String eventName, String location, String date, String time, int rows, int columns){
         this.eventName = eventName;
         this.location = location;
         this.date = date;
+        this.time = time;
         seats = new SeatMap(columns,rows);
     }
-    public Event(String eventName, String location, String date, SeatMap seats){
+    public Event(String eventName, String location, String date, String time, SeatMap seats){
         this.eventName = eventName;
         this.location = location;
         this.date = date;
+        this.time = time;
         this.seats = seats;
     }
     public String getEventName(){
@@ -35,11 +39,11 @@ public class Event {
     
     @Override
     public String toString(){
-        return eventName + "," + location + "," + date + "," + seats.toString();
+        return eventName + "," + location + "," + date + "," + time + "," + seats.toString();
     }
 
     public String eventDescription(){
-        return eventName + " held at " + location + ": " + date;
+        return eventName + " held at " + location + " on " + date + " at " + time;
     }
 
     /**
@@ -61,4 +65,5 @@ public class Event {
         }
         return result;
     }
+
 }

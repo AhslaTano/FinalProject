@@ -11,14 +11,14 @@ public class Seat {
         price = 0;
     }
 
-    public Seat(int price, int column, int row){
+    public Seat(int price, int row, int column){
         this.price = price;
         this.column = column;
         this.row = row;
         this.ticket = new Ticket(null, this);
         this.available = ticket.getAvailability();
     }
-    public Seat(int price, int column, int row, User owner){
+    public Seat(int price, int row, int column, User owner){
         this.price = price;
         this.column = column;
         this.row = row;
@@ -59,6 +59,6 @@ public class Seat {
 
     @Override
     public String toString(){
-        return row + ":" + column + ":" + price + ":" + (owner == null? "" : owner.getUsername());
+        return row + ":" + column + ":" + price + ":" + (owner == null? " " : owner.getUsername());
     }
 }

@@ -7,38 +7,41 @@ import java.util.Scanner;
 public class SeatMap {
     public Seat[][] seats;
 
+    //Switched [col][row] indexing for [row][col] because 1. convention 2. made my brain hurt
     public SeatMap(){
         seats = new Seat[10][10];
-        for(int c = 0; c < seats.length; c++){
-            for(int r = 0; r < seats[0].length; r++){
-                seats[c][r] = new Seat(10-r, c, r);
+        for(int r = 0; r < seats.length; r++){
+            for(int c = 0; c < seats[r].length; c++){
+                seats[r][c] = new Seat(10-c, r, c);
             }
         }
     }
 
     public SeatMap(int columns, int rows){
         seats = new Seat[columns][rows];
-        for(int c = 0; c < seats.length; c++){
-            for(int r = 0; r < seats[c].length; r++){
-                seats[c][r] = new Seat(10-r, c, r);
+        for(int r = 0; r < seats.length; r++){
+            for(int c = 0; c < seats[r].length; c++){
+                seats[r][c] = new Seat(10-c, r, c);
             }
         }
     }
     //TODO: implement pretty print (row letter, 1-indexed numbers, ascii)
     public void printMap(){
-        for (int c = 0; c < seats.length; c++) {
-            for (int r = 0; r < seats[c].length; r++) {
-                System.out.print("Column " + c + " Row " + r + ": " + seats[c][r]);
+        for(int r = 0; r < seats.length; r++){
+            for(int c = 0; c < seats[r].length; c++){
+                System.out.print("[ " + (seats[r][c].getAvailability()? seats[r][c].getSeatNumber() : "XX") + " ] ");
             }
+            System.out.print("\n");
         }
+
     }
 
     public String availableSeats(){
         String availableSeats = "";
-        for(int c = 0; c < seats.length; c++){
-            for(int r = 0; r < seats[0].length; r++){
-                if(seats[c][r].getAvailability()){
-                    availableSeats = availableSeats + "\t" + seats[c][r];
+        for(int r = 0; r < seats.length; r++){
+            for(int c = 0; c < seats[0].length; c++){
+                if(seats[r][c].getAvailability()){
+                    availableSeats = availableSeats + "\t" + seats[r][c];
                 }
                 availableSeats = availableSeats + "\n";
             }
@@ -49,9 +52,9 @@ public class SeatMap {
     @Override
     public String toString(){
         String result = "";
-        for (Seat[] seatRow : seats) {
-            for (Seat seat : seatRow) {
-                result += seat.toString() + "/";
+        for(int r = 0; r < seats.length; r++){
+            for(int c = 0; c < seats[r].length; c++){
+                result += seats[r][c].toString() + "/";
             }
         }
         return result;
@@ -76,25 +79,25 @@ public class SeatMap {
             seatStrings.add(scan.next());
         }
         String[] lastSeat = seatStrings.get(seatStrings.size()-1).split(":");
-        int rows = Integer.parseInt(lastSeat[0]);
-        int cols = Integer.parseInt(lastSeat[1]);
-        SeatMap seats = new SeatMap(cols, rows);        
+        int rows = Integer.parseInt(lastSeat[0] + 1);
+        int cols = Integer.parseInt(lastSeat[1] + 1);
+        SeatMap seats = new SeatMap(rows, cols);
+
         for (String string : seatStrings) {
+            String[] seatInfo = string.split(":");
+
+            int row = Integer.parseInt(seatInfo[0]);
+            int col = Integer.parseInt(seatInfo[1]);
+            int price = Integer.parseInt(seatInfo[2]);
+
             Seat seat;
-            String[] seatString = string.split(":");
-            for (String str : seatString) {
-                System.out.println("Debug:" + str);
-            }
-            int row = Integer.parseInt(seatString[0]);
-            int col = Integer.parseInt(seatString[1]);
-            int price = Integer.parseInt(seatString[2]);
-            
-            if (!seatString[3].isEmpty()) {
-                seat = new Seat(price, col, row);
+            if (seatInfo.length == 3) {
+                seat = new Seat(price, row, col);
             }
             else
             {
-                seat = new Seat(price, col, row, users.getUser(seatString[3]));
+                User owner = users.getUser(seatInfo[3]);
+                seat = new Seat(price, row, col, owner);
             }
             seats.addSeat(seat);
         }
@@ -102,9 +105,6 @@ public class SeatMap {
         return seats;
     }
     
-    public Seat getSeatFromLocation(int column, int row){
-        return seats[column][row];
-    }
 
     /**
      * Converts human-readable seat number to coords, returns seat

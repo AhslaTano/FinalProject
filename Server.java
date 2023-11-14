@@ -10,6 +10,7 @@ public class Server {
     private DataOutputStream out;
     private UserList users;
     private EventsList events;
+    private User user;
 
     //See https://stackoverflow.com/questions/72753113/is-it-ok-to-put-the-main-loop-of-a-program-in-the-constructor-of-a-class
     /**
@@ -38,7 +39,10 @@ public class Server {
             out = new DataOutputStream(socket.getOutputStream());
 
             //TODO: implement main menu
-
+            while(!user.isLoggedIn()) {
+                loginMenu();
+            }
+            mainMenu();
             //TODO: view events function
             //TODO: seat selecting from string
             //TODO:View purchased tickets function
@@ -93,7 +97,6 @@ public class Server {
             out.writeUTF("Creating an account...");
             out.writeUTF("Username: ");
             String username = in.readUTF();
-            // TODO: this is where input would need validation
 
             String password = "";
             boolean passwordConfirmed = false;
@@ -116,7 +119,7 @@ public class Server {
             out.writeUTF("Full name: ");
             String name = in.readUTF();
 
-            User user = new User(username, password, email, name, users);
+            user = new User(username, password, name, email, users);
             success = users.addUser(user);
         }
         catch (IOException e){
@@ -125,12 +128,12 @@ public class Server {
         return success;
     }
 
-    public void mainMenu(User user){
+    public void mainMenu(){
         //"
         try {
             out.writeUTF("Main menu:\n1.View Events\n2.Buy a Ticket\n3.View Purchased Tickets\n4.Add Points\n5.Account Options\n6.Quit");
             int userInput = in.readInt();
-            while(userInput != 6) //TODO: match to quit number option
+            while(userInput != 6)
             {
                 switch (userInput){
                     case 1:
@@ -166,12 +169,19 @@ public class Server {
         }
     }
 
-    public void purchaseTicketMenu(User user){
+    public void purchaseTicketMenu(){
         try {
             out.writeUTF("Upcoming events: \n" + events.viewEvents());
             out.writeUTF("Which event will you purchase tickets for?");
+
             int userInput = in.readInt();
-            Event event = events.getEvent(userInput);
+            Event event = null;
+            try {
+                event = events.getEvent(userInput);
+            }catch(ArrayIndexOutOfBoundsException e) {
+                out.writeUTF("Event not found! Please try again."); // maybe wrong
+            }
+
             if (event!= null){
                 event.seats.printMap();
                 //TODO: finish this part lol
@@ -183,6 +193,9 @@ public class Server {
         }
     }
 
+    /**
+     * Helper function - runs login menu, calls necessary methods
+     */
     public void loginMenu(){
         try{
             out.writeUTF("Login menu:\n1.Create an Account\n2.Log In\n3.Quit");
@@ -191,6 +204,9 @@ public class Server {
         }
     }
 
+    /**
+     * Helper function - runs account submenu
+     */
     public void accountMenu(){
         try{
             out.writeUTF("Account menu:\n1.Change Email\n2.Change Password\n3.Change Name");

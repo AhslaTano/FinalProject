@@ -9,7 +9,16 @@ public class EventsList {
     }
 
     public void addEvent(Event event){
-        events.add(event);
+        boolean eventExists = false;
+        for (Event e : events) {
+            if (e.toString().equals(event.toString())) {
+                eventExists = true;
+                break;
+            }
+        }
+        if (!eventExists) {
+            events.add(event);
+        }
     }
     public Event getEvent(int index) {return events.get(index);}
 
@@ -53,7 +62,7 @@ public class EventsList {
                 while (fileScan.hasNextLine()){
                     String eventLine = fileScan.nextLine();
                     String[] eventStrings = eventLine.split(",");
-                    events.addEvent(new Event(eventStrings[0], eventStrings[1], eventStrings[2], SeatMap.loadSeatMap(eventStrings[3], users)));
+                    events.addEvent(new Event(eventStrings[0], eventStrings[1], eventStrings[2], eventStrings[3], SeatMap.loadSeatMap(eventStrings[4], users)));
                 }
             fileScan.close();
             }  
