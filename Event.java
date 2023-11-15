@@ -62,7 +62,6 @@ public class Event {
             if (user.getPoints() >= seat.getPrice()) {
                 user.spendPoints(seat.getPrice());
                 seat.setTicketOwner(user);
-                user.addPurchasedTicket(seat.getTicket());
                 result = true;
             }
         }

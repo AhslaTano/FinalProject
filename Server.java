@@ -26,7 +26,9 @@ public class Server {
         }
     }
 
-
+/**
+ * the main function to run after server is connected
+ */
     public void Run(){
         System.out.println("Server started");
         System.out.println("Waiting for a client");
@@ -114,7 +116,9 @@ public class Server {
         }
         return success;
     }
-
+/**
+ * Displays the main menu of the site and gets the users option of actions
+ */
     public void mainMenu(){
         try {
             out.writeUTF("Main menu:\n1.View Events\n2.Buy a Ticket\n3.View Purchased Tickets\n4.Add Points\n5.Account Options\n6.Quit");
@@ -155,7 +159,9 @@ public class Server {
             System.err.println(e.getMessage());
         }
     }
-
+/**
+ * After purchase ticket option is selected, displays available tickets to user and allows them to choose
+ */
     public void purchaseTicketMenu(){
         try {
             out.writeUTF("Upcoming events: \n" + events.viewEvents());
