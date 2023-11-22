@@ -213,9 +213,10 @@ public class Server {
     public void loginMenu(){
         try{
             out.writeUTF("Login menu:\n1.Create an Account\n2.Log In\n3.Quit");
-            int userInput = in.readInt();
-            while(userInput != 6)
+            int userInput = 0;
+            while(userInput != 3)
             {
+                userInput = in.readInt();
                 switch (userInput){
                     case 1:
                         out.writeUTF("Create an Account: ");
@@ -223,27 +224,14 @@ public class Server {
                         break;
                     case 2:
                         out.writeUTF("Log in");
-                        loginMenu();
+                        userLogin();
                         break;
                     case 3:
-                        out.writeUTF("Your purchased tickets: ");
-                        out.writeUTF(user.viewPurchasedTickets());
-                        break;
-                    case 4:
-                        out.writeUTF("Your current points balance: " + user.getPoints());
-                        out.writeUTF("Enter points to add: ");
-                        int pointsToAdd = in.readInt();
-                        user.addPoints(pointsToAdd);
-                        break;
-                    case 5:
-                        out.writeUTF("Account Options");
-                        accountMenu();
                         break;
                     default:
                         out.writeUTF("Invalid input. Please try again.");
                         break;
-                }
-                userInput = in.readInt();
+                };
             }
         }catch (IOException e){
             System.err.println(e.getMessage());
