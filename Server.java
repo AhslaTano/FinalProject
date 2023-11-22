@@ -41,9 +41,8 @@ public class Server {
 
             startApplication();
             
-            while(!user.isLoggedIn()) {
-                loginMenu();
-            }
+            loginMenu();
+            
             mainMenu();
             socket.close();
             in.close();

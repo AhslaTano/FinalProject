@@ -39,7 +39,7 @@ public class Client {
             // TODO: remove main loop from constructor
             socket = new Socket(address, port);
             System.out.println("Connected");
-            input = new DataInputStream(socket.getInputStream());//updated from system.in to communicate with server
+            input = new DataInputStream(System.in);//updated from system.in to communicate with server
             out = new DataOutputStream(socket.getOutputStream());
             userInput = new Scanner(System.in);
         }

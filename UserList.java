@@ -111,8 +111,7 @@ public class UserList {
     public boolean login(String username, String password){
         boolean result = false;
         User user = getUser(username);
-        user.login(password);
-        if (user.isLoggedIn()){
+        if (user.login(password)){
             result = true;
         }
         return result;

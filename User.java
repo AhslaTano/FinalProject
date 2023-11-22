@@ -15,6 +15,7 @@ public class User {
         purchased = null;
         name = "";
         emailAddress = "";
+        loggedIn = false;
     }
 
     public User(String username, String password, String name, String emailAddress, UserList userList){
