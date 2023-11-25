@@ -59,6 +59,8 @@ public class Client {
         while(!serverLine.equals("quit")){
             try{
                 //loops reading the lines from the server until user input is ready
+                serverLine = serverInput.readUTF();
+                System.out.println("Server: " + serverLine);
                 while(serverInput.available() > 0){
                     serverLine = serverInput.readUTF();
                     System.out.println("Server: " + serverLine);

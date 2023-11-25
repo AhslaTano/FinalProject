@@ -11,8 +11,9 @@ public class Program {
         // System.out.println(user.toString());
         // user = new User("midas", "g0ld", "King Midas", "midas@greece.com", users);
         // System.out.println(user.toString());
-        System.out.println(users.toString());
+        //System.out.println(users.toString());
         EventsList events = EventsList.loadEventList(users);
+        System.out.println(events.viewEvents());
         //EventsList events = new EventsList();
         Event event = new Event("Test", "Testville", "10/10", "7:00", 20, 10);
 
@@ -22,10 +23,12 @@ public class Program {
 
         events.addEvent(event);
 
-        events.getEvent(0).purchaseTicket("A5", users.getUser("midas"));
+        //events.getEvent(0).purchaseTicket("h2", users.getUser("midas"));
         events.saveEventsList();
 
         users.getUser("midas").viewPurchasedTickets();
         events.getEvent(0).seats.printMap();
+        Seat seat = event.seats.getSeatFromHumanNumber("");
+        System.out.println(seat.getAvailability());
     }
 }

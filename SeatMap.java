@@ -20,18 +20,18 @@ public class SeatMap {
     /**
      * Prints a formatted map of seats
      */
-    public void printMap(){
+    public String printMap(){
         int length = seats[0].length * 6;
         String blankSpace =  String.format("%1$" + (length/4) +"s", "");
-        String Stage = blankSpace + "[" + blankSpace + "STAGE" + blankSpace + "]";
-        System.out.println("\n" + Stage);
+        String Stage = blankSpace + "[" + blankSpace + "STAGE" + blankSpace + "] \n";
+        //System.out.println("\n" + Stage);
         for(int r = 0; r < seats.length; r++){
             for(int c = 0; c < seats[r].length; c++){
-                System.out.print("[ " + (seats[r][c].getAvailability()? seats[r][c].getSeatNumber() : "XX") + " ] ");
+                Stage = Stage +"[ " + (seats[r][c].getAvailability()? seats[r][c].getSeatNumber() : "XX") + " ]";
             }
-            System.out.print("\n");
+            Stage = Stage + "\n";
         }
-
+        return Stage;
     }
 
     public String availableSeats(){
@@ -112,7 +112,9 @@ public class SeatMap {
     public Seat getSeatFromHumanNumber(String seatNumber){
         seatNumber = seatNumber.toUpperCase(); //just in case
         int row = (int) seatNumber.substring(0, 1).toCharArray()[0] - 65;
+        //System.out.println(row);
         int col = Integer.parseInt(seatNumber.substring(1));
+        //System.out.println(col);
         return seats[row][col];
 
     }

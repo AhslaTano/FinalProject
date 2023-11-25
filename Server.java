@@ -40,7 +40,6 @@ public class Server {
             out = new DataOutputStream(socket.getOutputStream());
             startApplication();
             loginMenu();
-            mainMenu();
             socket.close();
             in.close();
         }
@@ -68,6 +67,7 @@ public class Server {
             }catch (IOException e){
                 System.err.println(e.getMessage());
             }
+            mainMenu();
         }
 
     }
@@ -91,7 +91,7 @@ public class Server {
                     password = in.readUTF();
                     out.writeUTF("Confirm password: ");
                     String password2 = in.readUTF();
-                    if (password.equals(password2)){
+                    if(password.equals(password2)){
                         passwordConfirmed = true;
                     }
                 }
@@ -106,6 +106,7 @@ public class Server {
 
             user = new User(username, password, name, email);
             success = users.addUser(user);
+            loginMenu();
         }
         catch (IOException e){
             System.err.println(e.getMessage());
@@ -118,29 +119,29 @@ public class Server {
     public void mainMenu(){
         try {
             out.writeUTF("Main menu:\n1.View Events\n2.Buy a Ticket\n3.View Purchased Tickets\n4.Add Points\n5.Account Options\n6.Quit");
-            int userInput = in.readInt();
-            while(userInput != 6)
+            String userInput = in.readUTF();
+            while(!userInput.equals("6"))
             {
                 switch (userInput){
-                    case 1:
-                            out.writeUTF("Upcoming Events: ");
-                            events.viewEvents();
+                    case "1":
+                            //out.writeUTF("Upcoming Events: ");
+                            out.writeUTF(events.viewEvents());
                             break;
-                    case 2:
-                            out.writeUTF("Buy a Ticket:");
+                    case "2":
+                            //out.writeUTF("Buy a Ticket:");
                             purchaseTicketMenu();
                             break;
-                    case 3:
+                    case "3":
                             out.writeUTF("Your purchased tickets: ");
                             out.writeUTF(user.viewPurchasedTickets());
                             break;
-                    case 4:
+                    case "4":
                             out.writeUTF("Your current points balance: " + user.getPoints());
                             out.writeUTF("Enter points to add: ");
                             int pointsToAdd = in.readInt();
                             user.addPoints(pointsToAdd);
                             break;
-                    case 5:
+                    case "5":
                             out.writeUTF("Account Options");
                             accountMenu();
                             break;
@@ -148,7 +149,7 @@ public class Server {
                             out.writeUTF("Invalid input. Please try again.");
                             break;
                 }
-                userInput = in.readInt();
+                userInput = in.readUTF();
             }
             out.writeUTF("Thank you for using Ticket Seller!");
         } catch (IOException e) {
@@ -167,22 +168,22 @@ public class Server {
             Event event = null;
             try {
                 //Array indexing accounted for in getEvent()
-                event = events.getEvent(userInput);
-            }catch(ArrayIndexOutOfBoundsException e) {
+                event = events.getEvent(userInput-1);
+            }catch(ArrayIndexOutOfBoundsException e){ 
                 out.writeUTF("Event not found! Please try again."); // maybe wrong
             }
             if (event!= null){
-                event.seats.printMap();
+                out.writeUTF(event.seats.printMap());
                 out.writeUTF("Which seat would you like to purchase a ticket for?");
-                //out.writeUTF("Please enter its seat number: ");
+                out.writeUTF("Please enter its seat number: ");
                 String seatNumber = in.readUTF();
                 Seat seat = event.seats.getSeatFromHumanNumber(seatNumber);
-                if (seat != null && seat.getAvailability()) {
+                if (seat.getAvailability()) {
                     out.writeUTF("Ticket for seat " + seat.getSeatNumber() + " costs " + seat.getPrice() + " points. \n Purchase ticket? (Y/N):");
                     //out.writeUTF("Purchase ticket? (Y/N): ");
                     String userYNChoice = "";
                     userYNChoice = in.readUTF();
-                    while (!(userYNChoice.equalsIgnoreCase("Y") || userYNChoice.equalsIgnoreCase("N"))){
+                    while (!(userYNChoice.equalsIgnoreCase("Y") || !userYNChoice.equalsIgnoreCase("N"))){
                         //out.writeUTF("Please enter either 'Y' or 'N'!");
                         out.writeUTF("Purchase ticket? (Y/N): ");
                         userYNChoice = in.readUTF();
@@ -195,9 +196,10 @@ public class Server {
                         out.writeUTF("Cancelling operation.");
                     }
                 }
-            }
+            }else
+                out.writeUTF("There is no matching event");
         }
-        catch (IOException e)
+        catch(IOException e)
         {
             System.err.println(e.getMessage());
         }
@@ -220,6 +222,7 @@ public class Server {
                         break;
                     case "2":
                         out.writeUTF("Log in");
+                        //System.out.println(users.toString());
                         userLogin();
                         break;
                     case "3":

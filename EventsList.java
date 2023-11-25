@@ -89,7 +89,7 @@ public class EventsList {
             result = "There are no events coming up.";
         } else {
             for (Event event : events) {
-                result += (events.indexOf(event) + 1)+ ". " +  event.eventDescription();
+                result = result + (events.indexOf(event) + 1)+ ". " +  event.eventDescription();
             }
         }
         return result;
