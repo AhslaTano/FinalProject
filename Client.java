@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class Client {
     private Socket socket = null;
-    private DataInputStream input = null;
-    private DataOutputStream out = null;
-    private Scanner userInput;
+    private DataInputStream serverInput;
+    private DataInputStream userInput;
+    private DataOutputStream out;
 
     /*
      try{
@@ -37,11 +37,13 @@ public class Client {
     public Client(String address, int port){
         try{
             // TODO: remove main loop from constructor
+            System.out.println("Looking for server");
             socket = new Socket(address, port);
             System.out.println("Connected");
-            input = new DataInputStream(System.in);//updated from system.in to communicate with server
+            
+            serverInput = new DataInputStream(socket.getInputStream());//updated from system.in to communicate with server
+            userInput = new DataInputStream(System.in);
             out = new DataOutputStream(socket.getOutputStream());
-            userInput = new Scanner(System.in);
         }
         catch(UnknownHostException u){
             System.out.println(u);
@@ -52,16 +54,18 @@ public class Client {
             return;
         }
 
-        String clientLine = "";
         String serverLine = "";
-        while(!clientLine.equals("quit")){
+        String inputLine = "";
+        while(!serverLine.equals("quit")){
             try{
-                //then print output
-                serverLine = input.readUTF();
-                System.out.println("Server: " + serverLine);
-                //first send input
-                clientLine = userInput.nextLine();
-                out.writeUTF(clientLine);
+                //loops reading the lines from the server until user input is ready
+                while(serverInput.available() > 0){
+                    serverLine = serverInput.readUTF();
+                    System.out.println("Server: " + serverLine);
+                }
+                //user input
+                inputLine = userInput.readLine();
+                out.writeUTF(inputLine);
 
             }
             catch(IOException i){
@@ -70,7 +74,8 @@ public class Client {
 
         }
         try{
-            input.close();
+            serverInput.close();
+            userInput.close();
             out.close();
             socket.close();
         }
@@ -81,6 +86,6 @@ public class Client {
 
 
     public static void main(String[] args){
-        Client client = new Client("11.22.67.253", 5000);   
+        Client client = new Client("11.21.8.67", 5000);   
     }
 }

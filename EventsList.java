@@ -3,10 +3,16 @@ import java.util.*;
 
 public class EventsList {
     private ArrayList<Event> events;
+    /**
+     * Creates a list of events.
+     */
     public EventsList(){
         events = new ArrayList<>();
     }
-
+    /**
+     * 
+     * @param event The event to add to the list
+     */
     public void addEvent(Event event){
         boolean eventExists = false;
         for (Event e : events) {
@@ -38,11 +44,14 @@ public class EventsList {
         }
     }
 
+    /**
+     * @return A string of the events in the list
+     */
     @Override
     public String toString(){
         String result = "";
         for (Event event : events) {
-            result += event.toString();
+            result += event.toString() + "\n";
         }
         return result;
     }
@@ -71,7 +80,9 @@ public class EventsList {
        
         return events;
     }
-
+    /**
+     * @return A list of event descriptions from the created list for the user
+     */
     public String viewEvents(){
         String result = "";
         if (events.isEmpty()) {

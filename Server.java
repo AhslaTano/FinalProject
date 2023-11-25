@@ -38,11 +38,8 @@ public class Server {
 
             in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
             out = new DataOutputStream(socket.getOutputStream());
-
             startApplication();
-            
             loginMenu();
-            
             mainMenu();
             socket.close();
             in.close();
@@ -107,7 +104,7 @@ public class Server {
             out.writeUTF("Full name: ");
             String name = in.readUTF();
 
-            user = new User(username, password, name, email, users);
+            user = new User(username, password, name, email);
             success = users.addUser(user);
         }
         catch (IOException e){
@@ -177,16 +174,16 @@ public class Server {
             if (event!= null){
                 event.seats.printMap();
                 out.writeUTF("Which seat would you like to purchase a ticket for?");
-                out.writeUTF("Please enter its seat number: ");
+                //out.writeUTF("Please enter its seat number: ");
                 String seatNumber = in.readUTF();
                 Seat seat = event.seats.getSeatFromHumanNumber(seatNumber);
                 if (seat != null && seat.getAvailability()) {
-                    out.writeUTF("Ticket for seat " + seat.getSeatNumber() + " costs " + seat.getPrice() + " points. ");
-                    out.writeUTF("Purchase ticket? (Y/N): ");
+                    out.writeUTF("Ticket for seat " + seat.getSeatNumber() + " costs " + seat.getPrice() + " points. \n Purchase ticket? (Y/N):");
+                    //out.writeUTF("Purchase ticket? (Y/N): ");
                     String userYNChoice = "";
                     userYNChoice = in.readUTF();
                     while (!(userYNChoice.equalsIgnoreCase("Y") || userYNChoice.equalsIgnoreCase("N"))){
-                        out.writeUTF("Please enter either 'Y' or 'N'!");
+                        //out.writeUTF("Please enter either 'Y' or 'N'!");
                         out.writeUTF("Purchase ticket? (Y/N): ");
                         userYNChoice = in.readUTF();
                     }
@@ -212,20 +209,20 @@ public class Server {
     public void loginMenu(){
         try{
             out.writeUTF("Login menu:\n1.Create an Account\n2.Log In\n3.Quit");
-            int userInput = 0;
-            while(userInput != 3)
+            String userInput = "";
+            while(!userInput.equals("3"))
             {
-                userInput = in.readInt();
+                userInput = in.readUTF();
                 switch (userInput){
-                    case 1:
+                    case "1":
                         out.writeUTF("Create an Account: ");
                         createAccount();
                         break;
-                    case 2:
+                    case "2":
                         out.writeUTF("Log in");
                         userLogin();
                         break;
-                    case 3:
+                    case "3":
                         break;
                     default:
                         out.writeUTF("Invalid input. Please try again.");

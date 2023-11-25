@@ -91,7 +91,7 @@ public class UserList {
                     String userLine = fileScan.nextLine();
                     //Uh Oh...............
                     String[] userStrings = userLine.split(",");
-                    users.addUser(new User(userStrings[0], userStrings[1], userStrings[3], userStrings[2], users));
+                    users.addUser(new User(userStrings[0], userStrings[1], userStrings[3], userStrings[2]));
                 }
             fileScan.close();
             }  
